@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "228396705327",
+    "project_id": "egyptian-marathon-99c30",
+    "storage_bucket": "egyptian-marathon-99c30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228396705327:android:f02422e641279ce28f08da",
+        "android_client_info": {
+          "package_name": "com.example.egyptian_marathon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "228396705327-615ham913asrpf1cb9fhs9opk31fv773.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPqdBxDEgNq1Ehls-Lb7dwjL44jp2NuLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228396705327-615ham913asrpf1cb9fhs9opk31fv773.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
