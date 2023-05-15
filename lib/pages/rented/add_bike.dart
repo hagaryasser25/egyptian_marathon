@@ -435,7 +435,7 @@ class _AddBikeState extends State<AddBike> {
                               .reference()
                               .child('bikes')
                               .child('$type')
-                              .child('$area');
+                              ;
 
                           String? id = companyRef.push().key;
 

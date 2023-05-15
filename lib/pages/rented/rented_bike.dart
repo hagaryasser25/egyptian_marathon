@@ -23,6 +23,7 @@ class _RentedBikeState extends State<RentedBike> {
   late FirebaseDatabase database;
   late FirebaseApp app;
   List<Bikes> bikesList = [];
+  List<Bikes> searchList = [];
   List<String> keyslist = [];
   String dropdownValue = 'مصر الجديدة';
 
@@ -37,15 +38,12 @@ class _RentedBikeState extends State<RentedBike> {
   void fetchDoctors() async {
     app = await Firebase.initializeApp();
     database = FirebaseDatabase(app: app);
-    base = database
-        .reference()
-        .child("bikes")
-        .child('${widget.type}')
-        .child('$dropdownValue');
+    base = database.reference().child("bikes").child('${widget.type}');
     base.onChildAdded.listen((event) {
       print(event.snapshot.value);
       Bikes p = Bikes.fromJson(event.snapshot.value);
       bikesList.add(p);
+      searchList.add(p);
       keyslist.add(event.snapshot.key.toString());
       setState(() {});
     });
@@ -82,64 +80,35 @@ class _RentedBikeState extends State<RentedBike> {
               padding: EdgeInsets.only(top: 20.h, right: 20.h, left: 20.h),
               child: Column(
                 children: [
-                  DecoratedBox(
-                    decoration: ShapeDecoration(
-                      shape: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 183, 183, 183),
-                            width: 2.0),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  SizedBox(
+                    height: 70.h,
+                    child: TextField(
+                      style: const TextStyle(
+                        fontSize: 15.0,
                       ),
-                    ),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      underline: SizedBox(),
-
-                      // Step 3.
-                      value: dropdownValue,
-                      icon: Padding(
-                        padding: EdgeInsets.only(right: 5),
-                        child: Icon(Icons.arrow_drop_down,
-                            color: Color.fromARGB(255, 119, 118, 118)),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'ابحث بالمنطقة',
+                        
                       ),
-
-                      // Step 4.
-                      items: [
-                        'مصر الجديدة',
-                        'مدينة نصر',
-                        'أكتوبر',
-                        'التجمع',
-                        'العبور',
-                        'المعادى',
-                        'المهندسين',
-                        'الشروق',
-                        'الشيخ زايد',
-                        'مدينتى',
-                        'بدر',
-                        'شبرا',
-                        'الحلمية',
-                        'الزيتون'
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              right: 5,
-                            ),
-                            child: Text(
-                              value,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color.fromARGB(255, 119, 118, 118)),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                      // Step 5.
-                      onChanged: (String? newValue) {
+                      onChanged: (char) {
                         setState(() {
-                          dropdownValue = newValue!;
-                          bikesList.clear();
-                          fetchDoctors();
+                          if (char.isEmpty) {
+                            setState(() {
+                              bikesList = searchList;
+                            });
+                          } else {
+                            bikesList = [];
+                            for (Bikes model in searchList) {
+                              if (model.area!.contains(char)) {
+                                bikesList.add(model);
+                              }
+                            }
+                            setState(() {});
+                          }
                         });
                       },
                     ),

@@ -106,7 +106,8 @@ class _EventListState extends State<EventList> {
                   );
                 },
               ),
-            )),
+            )
+            ),
       ),
     );
   }

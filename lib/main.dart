@@ -13,6 +13,7 @@ import 'package:egyptian_marathon/pages/rented/join_event.dart';
 import 'package:egyptian_marathon/pages/rented/rented_bike.dart';
 import 'package:egyptian_marathon/pages/rented/rented_home.dart';
 import 'package:egyptian_marathon/pages/rented/rented_list.dart';
+import 'package:egyptian_marathon/pages/user/user_event.dart';
 import 'package:egyptian_marathon/pages/user/user_home.dart';
 import 'package:egyptian_marathon/pages/user/user_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -67,6 +68,7 @@ class MyApp extends StatelessWidget {
         AdminEvent.routeName: (ctx) => AdminEvent(),
         AddEvent.routeName: (ctx) => AddEvent(),
         JoinEvent.routeName: (ctx) => JoinEvent(),
+        UserEvent.routeName: (ctx) => UserEvent(),
         EventList.routeName: (ctx) => EventList(),
         BookingList.routeName: (ctx) => BookingList(),
         BikeList.routeName: (ctx) => BikeList(),

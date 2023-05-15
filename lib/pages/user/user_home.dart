@@ -1,5 +1,6 @@
 import 'package:egyptian_marathon/pages/rented/rented_bike.dart';
 import 'package:egyptian_marathon/pages/user/user_bikes.dart';
+import 'package:egyptian_marathon/pages/user/user_event.dart';
 import 'package:egyptian_marathon/pages/user/user_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -211,7 +212,7 @@ class _UserHomeState extends State<UserHome> {
                       ),
                       InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, JoinEvent.routeName);
+                            Navigator.pushNamed(context, UserEvent.routeName);
                           },
                           child: card(
                               'assets/images/event.jpg', 'الأشتراك فى مسابقة')),
