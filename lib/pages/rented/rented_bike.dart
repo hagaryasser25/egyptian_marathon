@@ -34,7 +34,7 @@ class _RentedBikeState extends State<RentedBike> {
     fetchDoctors();
   }
 
-  @override
+
   void fetchDoctors() async {
     app = await Firebase.initializeApp();
     database = FirebaseDatabase(app: app);
@@ -95,22 +95,22 @@ class _RentedBikeState extends State<RentedBike> {
                         
                       ),
                       onChanged: (char) {
-                        setState(() {
-                          if (char.isEmpty) {
-                            setState(() {
-                              bikesList = searchList;
-                            });
-                          } else {
-                            bikesList = [];
-                            for (Bikes model in searchList) {
-                              if (model.area!.contains(char)) {
-                                bikesList.add(model);
-                              }
+                      setState(() {
+                        if (char.isEmpty) {
+                          setState(() {
+                            bikesList = searchList;
+                          });
+                        } else {
+                          bikesList = [];
+                          for (Bikes model in searchList) {
+                            if (model.area!.contains(char)) {
+                              bikesList.add(model);
                             }
-                            setState(() {});
                           }
-                        });
-                      },
+                          setState(() {});
+                        }
+                      });
+                    },
                     ),
                   ),
                   SizedBox(

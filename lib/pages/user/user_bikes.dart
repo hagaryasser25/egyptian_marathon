@@ -20,7 +20,7 @@ class UserBike extends StatefulWidget {
 }
 
 class _UserBikeState extends State<UserBike> {
- late DatabaseReference base;
+  late DatabaseReference base;
   late FirebaseDatabase database;
   late FirebaseApp app;
   List<Bikes> bikesList = [];
@@ -62,10 +62,9 @@ class _UserBikeState extends State<UserBike> {
                 title: Text('تأجير ${widget.type}')),
             body: Padding(
               padding: EdgeInsets.only(top: 20.h, right: 20.h, left: 20.h),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
+              child: Column(
+                children: [
+                  SizedBox(
                     height: 10.h,
                   ),
                   SizedBox(
@@ -77,7 +76,6 @@ class _UserBikeState extends State<UserBike> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'ابحث بالمنطقة',
-                        
                       ),
                       onChanged: (char) {
                         setState(() {
@@ -98,139 +96,142 @@ class _UserBikeState extends State<UserBike> {
                       },
                     ),
                   ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    SizedBox(
-                      height: 5000.h,
-                      child: FutureBuilder(
-                        builder: ((context, snapshot) {
-                          return ListView.builder(
-                              itemCount: bikesList.length,
-                              itemBuilder: ((context, index) {
-                                return Column(
-                                  children: [
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                      ),
-                                      child: SizedBox(
-                                        width: double.infinity,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10,
-                                              right: 15,
-                                              left: 15,
-                                              bottom: 10),
-                                          child: Row(
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Expanded(
+                    flex: 8,
+                    child: ListView.builder(
+                        itemCount: bikesList.length,
+                        itemBuilder: ((context, index) {
+                          return SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10,
+                                          right: 15,
+                                          left: 15,
+                                          bottom: 10),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 100.w,
+                                            height: 170.h,
+                                            child: Image.network(
+                                                '${bikesList[index].imageUrl.toString()}'),
+                                          ),
+                                          Column(
                                             children: [
-                                              Container(
-                                                width: 110.w,
-                                                height: 170.h,
-                                                child: Image.network(
-                                                    '${bikesList[index].imageUrl.toString()}'),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 10.w),
+                                                child: Text(
+                                                    'سعر التأجير(ساعة) : ${bikesList[index].price}',
+                                                    style: TextStyle(
+                                                        fontSize: 15)),
                                               ),
-                                              Column(
-                                                children: [
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 10.w),
-                                                    child: Text(
-                                                        'سعر التأجير(ساعة) : ${bikesList[index].price}',
-                                                        style: TextStyle(
-                                                            fontSize: 15)),
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
+                                              Text(
+                                                    'المنطقة : ${bikesList[index].area}',
+                                                    style: TextStyle(
+                                                        fontSize: 15)),
+                                              
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 10.w),
+                                                child: Text(
+                                                    'مبلغ التأمين : ${bikesList[index].amount.toString()}',
+                                                    style: TextStyle(
+                                                        fontSize: 15)),
+                                              ),
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 10.w),
+                                                child: Text(
+                                                    'اسم المؤجر : ${bikesList[index].rentedName.toString()}',
+                                                    style: TextStyle(
+                                                        fontSize: 15)),
+                                              ),
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 10.w),
+                                                child: Text(
+                                                    'رقم الهاتف : ${bikesList[index].rentedPhone.toString()}',
+                                                    style: TextStyle(
+                                                        fontSize: 16)),
+                                              ),
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
+                                              ConstrainedBox(
+                                                constraints:
+                                                    BoxConstraints.tightFor(
+                                                        width: 90.w,
+                                                        height: 40.h),
+                                                child: ElevatedButton(
+                                                  style: ElevatedButton
+                                                      .styleFrom(
+                                                    primary:
+                                                        HexColor('#6bbcba'),
                                                   ),
-                                                  SizedBox(
-                                                    height: 10.h,
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 10.w),
-                                                    child: Text(
-                                                        'مبلغ التأمين : ${bikesList[index].amount.toString()}',
-                                                        style: TextStyle(
-                                                            fontSize: 15)),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10.h,
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 10.w),
-                                                    child: Text(
-                                                        'اسم المؤجر : ${bikesList[index].rentedName.toString()}',
-                                                        style: TextStyle(
-                                                            fontSize: 15)),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10.h,
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 10.w),
-                                                    child: Text(
-                                                        'رقم الهاتف : ${bikesList[index].rentedPhone.toString()}',
-                                                        style: TextStyle(
-                                                            fontSize: 16)),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10.h,
-                                                  ),
-                                                  ConstrainedBox(
-                                                    constraints:
-                                                        BoxConstraints.tightFor(
-                                                            width: 90.w,
-                                                            height: 40.h),
-                                                    child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        primary:
-                                                            HexColor('#6bbcba'),
-                                                      ),
-                                                      child: Text('حجز الأن'),
-                                                      onPressed: () async {
-                                                        Navigator.push(context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) {
-                                                          return BookBike(
-                                                            amount:
-                                                                bikesList[index]
-                                                                    .amount
-                                                                    .toString(),
-                                                            bikeCode:
-                                                                bikesList[index]
-                                                                    .code
-                                                                    .toString(),
-                                                            bikePrice:
-                                                                bikesList[index]
-                                                                    .price,
-                                                            uid:
-                                                                bikesList[index]
-                                                                    .uid
-                                                                    .toString(),
-                                                          );
-                                                        }));
-                                                      },
-                                                    ),
-                                                  ),
-                                                ],
+                                                  child: Text('حجز الأن'),
+                                                  onPressed: () async {
+                                                    Navigator.push(context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) {
+                                                      return BookBike(
+                                                        amount:
+                                                            bikesList[index]
+                                                                .amount
+                                                                .toString(),
+                                                        bikeCode:
+                                                            bikesList[index]
+                                                                .code
+                                                                .toString(),
+                                                        bikePrice:
+                                                            bikesList[index]
+                                                                .price,
+                                                        uid: bikesList[index]
+                                                            .uid
+                                                            .toString(),
+                                                      );
+                                                    }));
+                                                  },
+                                                ),
                                               ),
                                             ],
                                           ),
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                    SizedBox(height: 20.h)
-                                  ],
-                                );
-                              }));
-                        }),
-                      ),
-                    ),
-                  ],
-                ),
+                                  ),
+                                ),
+                                SizedBox(height: 20.h)
+                              ],
+                            ),
+                          );
+                        })),
+                  ),
+                ],
               ),
             )),
       ),
