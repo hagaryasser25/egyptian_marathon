@@ -65,37 +65,79 @@ class _JoinEventState extends State<JoinEvent> {
           appBar: AppBar(
               backgroundColor: HexColor('#6bbcba'),
               title: Text('الأشتراك فى مسابقة')),
-          body: Container(
-            decoration: BoxDecoration(color: HexColor('#eaf2f8')),
-            child: StaggeredGridView.countBuilder(
-              padding: EdgeInsets.only(
-                top: 20.h,
-                left: 15.w,
-                right: 15.w,
-                bottom: 15.h,
-              ),
-              crossAxisCount: 6,
-              itemCount: eventsList.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Column(children: [
-                    SizedBox(height: 25.h),
-                    Text(
-                      '${eventsList[index].code.toString()}',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(height: 5.h),
-                    Text('${eventsList[index].date.toString()}'),
-                    SizedBox(height: 5.h),
-                    Text('${eventsList[index].place.toString()}'),
-                    SizedBox(height: 5.h),
-                    Text('${eventsList[index].appointment.toString()}'),
-                    SizedBox(height: 5.h),
-                    ConstrainedBox(
+          body: ListView.builder(
+            itemCount: eventsList.length,
+            itemBuilder: (BuildContext context, int index) {
+              var date = eventsList[index].date;
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, right: 15, left: 15, bottom: 10),
+                          child: Column(children: [
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'اسم المسابقة : ${eventsList[index].name.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'نوع المسابقة : ${eventsList[index].type.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'اسم الراعى: ${eventsList[index].organizer.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'رسوم الاشتراك: ${eventsList[index].price.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'التاريخ: ${eventsList[index].date.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'الوقت: ${eventsList[index].time.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'مكان التجمع: ${eventsList[index].place.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'موعد التجمع: ${eventsList[index].appointment.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'شروط المسابقة: ${eventsList[index].conditions.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            ConstrainedBox(
                       constraints:
                           BoxConstraints.tightFor(width: 80.w, height: 35.h),
                       child: ElevatedButton(
@@ -114,14 +156,15 @@ class _JoinEventState extends State<JoinEvent> {
                                   DatabaseReference companyRef =
                                       FirebaseDatabase.instance
                                           .reference()
-                                          .child('eventsBookings');
+                                          .child('eventsBookings').
+                                          child('${eventsList[index].type.toString()}');
 
                                   String? id = companyRef.push().key;
 
                                   await companyRef.child(id!).set({
                                     'date': date,
                                     'userEmail': email,
-                                    'code': eventsList[index].code.toString(),
+                                    'name': eventsList[index].name.toString(),
                                   });
                                 }
                                 showAlertDialog(context);
@@ -129,14 +172,17 @@ class _JoinEventState extends State<JoinEvent> {
                         },
                       ),
                     ),
-                  ]),
-                );
-              },
-              staggeredTileBuilder: (int index) =>
-                  new StaggeredTile.count(3, index.isEven ? 3 : 3),
-              mainAxisSpacing: 12.0,
-              crossAxisSpacing: 5.0,
-            ),
+                          ]),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  )
+                ],
+              );
+            },
           ),
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:egyptian_marathon/pages/admin/add_event.dart';
 import 'package:egyptian_marathon/pages/admin/admin_events.dart';
 import 'package:egyptian_marathon/pages/admin/bike_list.dart';
-import 'package:egyptian_marathon/pages/admin/booking_list.dart';
 import 'package:egyptian_marathon/pages/admin/event_list.dart';
+import 'package:egyptian_marathon/pages/admin/events_types.dart';
 import 'package:egyptian_marathon/pages/auth/admin_login.dart';
 import 'package:egyptian_marathon/pages/auth/login.dart';
 import 'package:egyptian_marathon/pages/auth/rented_login.dart';
@@ -16,6 +16,7 @@ import 'package:egyptian_marathon/pages/rented/rented_list.dart';
 import 'package:egyptian_marathon/pages/user/user_event.dart';
 import 'package:egyptian_marathon/pages/user/user_home.dart';
 import 'package:egyptian_marathon/pages/user/user_list.dart';
+import 'package:egyptian_marathon/pages/user/user_types.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -69,11 +70,11 @@ class MyApp extends StatelessWidget {
         AddEvent.routeName: (ctx) => AddEvent(),
         JoinEvent.routeName: (ctx) => JoinEvent(),
         UserEvent.routeName: (ctx) => UserEvent(),
-        EventList.routeName: (ctx) => EventList(),
-        BookingList.routeName: (ctx) => BookingList(),
         BikeList.routeName: (ctx) => BikeList(),
         RentedList.routeName: (ctx) => RentedList(),
         UserList.routeName: (ctx) => UserList(),
+        EventsTypes.routeName: (ctx) => EventsTypes(),
+        UserTypes.routeName: (ctx) => UserTypes(),
       },
     );
   }

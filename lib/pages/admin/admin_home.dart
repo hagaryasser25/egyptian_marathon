@@ -1,5 +1,7 @@
 import 'package:egyptian_marathon/pages/admin/admin_events.dart';
+import 'package:egyptian_marathon/pages/admin/bike_list.dart';
 import 'package:egyptian_marathon/pages/admin/event_list.dart';
+import 'package:egyptian_marathon/pages/admin/events_types.dart';
 import 'package:egyptian_marathon/pages/rented/rented_bike.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../landing_page.dart';
-import 'booking_list.dart';
 
 class AdminHome extends StatefulWidget {
   static const routeName = '/adminHome';
@@ -43,34 +44,51 @@ class _AdminHomeState extends State<AdminHome> {
                 scrollDirection: Axis.horizontal,
                 child: Padding(
                   padding: EdgeInsets.only(top: 20.h, right: 15.w, left: 15.w),
-                  child: Row(
+                  child: Column(
                     children: [
-                      InkWell(
-                          onTap: () {
-                            FirebaseAuth.instance.signOut();
-                            Navigator.pushNamed(context, LandingPage.routeName);
-                          },
-                          child:
-                              card('assets/images/exit3.png', 'تسجيل الخروج')),
-                      SizedBox(
-                        width: 10.w,
+                      Row(
+                        children: [
+                          InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, BikeList.routeName);
+                              },
+                              child: card('assets/images/rental.jfif',
+                                  'حجوزات الدراجات')),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, EventsTypes.routeName);
+                              },
+                              child: card('assets/images/compo.jfif',
+                                  'حجوزات المسابقات')),
+                        ],
                       ),
-                      InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, BookingList.routeName);
-                          },
-                          child: card(
-                              'assets/images/list.jfif', 'قائمة الحجوزات')),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, AdminEvent.routeName);
-                          },
-                          child: card(
-                              'assets/images/event.jpg', 'أضافة مسابقة')),
-
+                      Row(
+                        children: [
+                          InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, AdminEvent.routeName);
+                              },
+                              child: card(
+                                  'assets/images/event.jpg', 'أضافة مسابقة')),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          InkWell(
+                              onTap: () {
+                                FirebaseAuth.instance.signOut();
+                                Navigator.pushNamed(
+                                    context, LandingPage.routeName);
+                              },
+                              child: card(
+                                  'assets/images/exit3.png', 'تسجيل الخروج')),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -91,12 +109,12 @@ Widget card(String url, String text) {
       ),
       child: SizedBox(
         width: 150.w,
-        height: 250.h,
+        height: 150.h,
         child: Column(children: [
           SizedBox(
-            height: 10.h,
+            height: 2.h,
           ),
-          Container(width: 130.w, height: 170.h, child: Image.asset(url)),
+          Container(width: 130.w, height: 100.h, child: Image.asset(url)),
           SizedBox(height: 5),
           Text(text, style: TextStyle(fontSize: 18, color: HexColor('#32486d')))
         ]),

@@ -145,7 +145,7 @@ class _UserListState extends State<UserList> {
                             ],
                           );
                         } else {
-                          return Text('');
+                          return SizedBox(height: 0.1.h);
                         }
                       }));
                 }),

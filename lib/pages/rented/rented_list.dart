@@ -146,7 +146,7 @@ class _RentedListState extends State<RentedList> {
                             ],
                           );
                         } else {
-                          return Text('');
+                          return SizedBox(height: 0.1.h);
                         }
                       }));
                 }),

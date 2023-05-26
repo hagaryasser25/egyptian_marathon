@@ -7,6 +7,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -141,10 +142,9 @@ class _UserBikeState extends State<UserBike> {
                                                 height: 10.h,
                                               ),
                                               Text(
-                                                    'المنطقة : ${bikesList[index].area}',
-                                                    style: TextStyle(
-                                                        fontSize: 15)),
-                                              
+                                                  'المنطقة : ${bikesList[index].area}',
+                                                  style:
+                                                      TextStyle(fontSize: 15)),
                                               SizedBox(
                                                 height: 10.h,
                                               ),
@@ -181,14 +181,64 @@ class _UserBikeState extends State<UserBike> {
                                               SizedBox(
                                                 height: 10.h,
                                               ),
+                                              RatingBar.builder(
+                                                initialRating:
+                                                    bikesList[index]
+                                                        .rating!
+                                                        .toDouble(),
+                                                minRating: 1,
+                                                direction: Axis.horizontal,
+                                                allowHalfRating: true,
+                                                itemCount: 5,
+                                                itemSize: 18,
+                                                itemPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 2.0),
+                                                itemBuilder: (context, _) =>
+                                                    Icon(
+                                                  Icons.star,
+                                                  color: Colors.amber,
+                                                ),
+                                                onRatingUpdate:
+                                                    (double rating2) async {
+                                                  rating2.toDouble();
+                                                  User? user = FirebaseAuth
+                                                      .instance.currentUser;
+
+                                                  if (user != null) {
+                                                    String uid = user.uid;
+                                                    int date = DateTime.now()
+                                                        .millisecondsSinceEpoch;
+
+                                                    DatabaseReference
+                                                        companyRef =
+                                                        FirebaseDatabase
+                                                            .instance
+                                                            .reference()
+                                                            .child('bikes')
+                                                            .child('${widget.type}')
+                                                            .child(bikesList[
+                                                                    index]
+                                                                .id
+                                                                .toString());
+
+                                                    await companyRef.update({
+                                                      'rating': rating2.toInt(),
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
                                               ConstrainedBox(
                                                 constraints:
                                                     BoxConstraints.tightFor(
                                                         width: 90.w,
                                                         height: 40.h),
                                                 child: ElevatedButton(
-                                                  style: ElevatedButton
-                                                      .styleFrom(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
                                                     primary:
                                                         HexColor('#6bbcba'),
                                                   ),
@@ -196,13 +246,11 @@ class _UserBikeState extends State<UserBike> {
                                                   onPressed: () async {
                                                     Navigator.push(context,
                                                         MaterialPageRoute(
-                                                            builder:
-                                                                (context) {
+                                                            builder: (context) {
                                                       return BookBike(
-                                                        amount:
-                                                            bikesList[index]
-                                                                .amount
-                                                                .toString(),
+                                                        amount: bikesList[index]
+                                                            .amount
+                                                            .toString(),
                                                         bikeCode:
                                                             bikesList[index]
                                                                 .code

@@ -406,6 +406,7 @@ class _AddBikeState extends State<AddBike> {
                         String code = codeController.text.trim();
                         int price = int.parse(priceController.text);
                         String amount = amountController.text.trim();
+                        int rating = 3;
 
                         if (code.isEmpty) {
                           Fluttertoast.showToast(msg: 'ادخل كود الدراجة');
@@ -446,6 +447,7 @@ class _AddBikeState extends State<AddBike> {
                             'code': code,
                             'price': price,
                             'amount': amount,
+                            'rating': rating,
                             'id': id,
                             'uid': uid,
                             'rentedName': currentUser.fullName,

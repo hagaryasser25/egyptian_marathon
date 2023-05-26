@@ -16,27 +16,57 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
-class AddEvent extends StatefulWidget {
-  static const routeName = '/addEvent';
-  const AddEvent({super.key});
+class EditEvent extends StatefulWidget {
+  String name;
+  String organizer;
+  String date;
+  String price;
+  String time;
+  String place;
+  String appointment;
+  String condition;
+  String id;
+  String type;
+  static const routeName = '/editEvent';
+  EditEvent({
+    required this.name,
+    required this.organizer,
+    required this.date,
+    required this.price,
+    required this.time,
+    required this.place,
+    required this.appointment,
+    required this.condition,
+    required this.id,
+    required this.type,
+  });
 
   @override
-  State<AddEvent> createState() => _AddEventState();
+  State<EditEvent> createState() => _EditEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
+class _EditEventState extends State<EditEvent> {
   var nameController = TextEditingController();
+  var typeController = TextEditingController();
   var organizerController = TextEditingController();
-  String dropdownValue2 = 'دراجات هوائية';
   var dateController = TextEditingController();
   var priceController = TextEditingController();
   var timeController = TextEditingController();
   var placeController = TextEditingController();
   var appointmentController = TextEditingController();
-  var conditionsController = TextEditingController();
+  var conditionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    nameController.text = widget.name;
+    typeController.text = widget.type;
+    organizerController.text = widget.organizer;
+    dateController.text = widget.date;
+    priceController.text = widget.price;
+    timeController.text = widget.time;
+    placeController.text = widget.place;
+    appointmentController.text = widget.appointment;
+    conditionController.text = widget.condition;
     return Directionality(
       textDirection: ui.TextDirection.rtl,
       child: ScreenUtilInit(
@@ -64,90 +94,6 @@ class _AddEventState extends State<AddEvent> {
                     SizedBox(
                       height: 30.h,
                     ),
-                    DecoratedBox(
-                      decoration: ShapeDecoration(
-                        shape: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 183, 183, 183),
-                              width: 2.0),
-                        ),
-                      ),
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        underline: SizedBox(),
-
-                        // Step 3.
-                        value: dropdownValue2,
-                        icon: Padding(
-                          padding: EdgeInsets.only(right: 5),
-                          child: Icon(Icons.arrow_drop_down,
-                              color: Color.fromARGB(255, 119, 118, 118)),
-                        ),
-
-                        // Step 4.
-                        items: [
-                          'دراجات هوائية',
-                          'دراجات نارية',
-                          'خيل',
-                          'سيارات',
-                          'سباحة'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                right: 5,
-                              ),
-                              child: Text(
-                                value,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Color.fromARGB(255, 119, 118, 118)),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        // Step 5.
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue2 = newValue!;
-                          });
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-                    TextField(
-                      controller: dateController,
-                      //editing controller of this TextField
-                      decoration: InputDecoration(
-                          icon: Icon(Icons.calendar_today), //icon of text field
-                          labelText: "تاريخ المسابقة" //label text of field
-                          ),
-                      readOnly: true,
-                      //set it true, so that user will not able to edit text
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1950),
-                            //DateTime.now() - not to allow to choose before today.
-                            lastDate: DateTime(2100));
-
-                        if (pickedDate != null) {
-                          print(
-                              pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                          String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
-                          print(
-                              formattedDate); //formatted date output using intl package =>  2021-03-16
-                          setState(() {
-                            dateController.text =
-                                formattedDate; //set output date to TextField value.
-                          });
-                        } else {}
-                      },
-                    ),
-                    SizedBox(height: 20.h),
                     SizedBox(
                       height: 65.h,
                       child: TextField(
@@ -159,7 +105,23 @@ class _AddEventState extends State<AddEvent> {
                                 color: HexColor('#6bbcba'), width: 2.0),
                           ),
                           border: OutlineInputBorder(),
-                          hintText: 'اسم المسابقة',
+                          labelText: 'اسم المسابقة',
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    SizedBox(
+                      height: 65.h,
+                      child: TextField(
+                        controller: typeController,
+                        decoration: InputDecoration(
+                          fillColor: HexColor('#155564'),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: HexColor('#6bbcba'), width: 2.0),
+                          ),
+                          border: OutlineInputBorder(),
+                          labelText: 'نوع المسابقة',
                         ),
                       ),
                     ),
@@ -175,7 +137,23 @@ class _AddEventState extends State<AddEvent> {
                                 color: HexColor('#6bbcba'), width: 2.0),
                           ),
                           border: OutlineInputBorder(),
-                          hintText: 'اسم الراعى',
+                          labelText: 'اسم الراعى',
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    SizedBox(
+                      height: 65.h,
+                      child: TextField(
+                        controller: dateController,
+                        decoration: InputDecoration(
+                          fillColor: HexColor('#155564'),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: HexColor('#6bbcba'), width: 2.0),
+                          ),
+                          border: OutlineInputBorder(),
+                          labelText: 'تاريخ المسابقة',
                         ),
                       ),
                     ),
@@ -191,7 +169,7 @@ class _AddEventState extends State<AddEvent> {
                                 color: HexColor('#6bbcba'), width: 2.0),
                           ),
                           border: OutlineInputBorder(),
-                          hintText: 'وقت المسابقة',
+                          labelText: 'وقت المسابقة',
                         ),
                       ),
                     ),
@@ -210,7 +188,7 @@ class _AddEventState extends State<AddEvent> {
                                 color: HexColor('#6bbcba'), width: 2.0),
                           ),
                           border: OutlineInputBorder(),
-                          hintText: 'مكان التجمع',
+                          labelText: 'مكان التجمع',
                         ),
                       ),
                     ),
@@ -221,7 +199,7 @@ class _AddEventState extends State<AddEvent> {
                         keyboardType: TextInputType.multiline,
                         minLines: 5,
                         maxLines: 10,
-                        controller: conditionsController,
+                        controller: conditionController,
                         decoration: InputDecoration(
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
@@ -229,7 +207,7 @@ class _AddEventState extends State<AddEvent> {
                                 color: HexColor('#6bbcba'), width: 2.0),
                           ),
                           border: OutlineInputBorder(),
-                          hintText: 'شروط المسابقة',
+                         labelText: 'شروط المسابقة',
                         ),
                       ),
                     ),
@@ -245,7 +223,7 @@ class _AddEventState extends State<AddEvent> {
                                 color: HexColor('#6bbcba'), width: 2.0),
                           ),
                           border: OutlineInputBorder(),
-                          hintText: 'موعد التجمع',
+                          labelText: 'موعد التجمع',
                         ),
                       ),
                     ),
@@ -261,7 +239,7 @@ class _AddEventState extends State<AddEvent> {
                                 color: HexColor('#6bbcba'), width: 2.0),
                           ),
                           border: OutlineInputBorder(),
-                          hintText: 'رسوم الحضور',
+                          labelText: 'رسوم الحضور',
                         ),
                       ),
                     ),
@@ -284,47 +262,28 @@ class _AddEventState extends State<AddEvent> {
                           String place = placeController.text.trim();
                           String appointment =
                               appointmentController.text.trim();
-                          String conditions = conditionsController.text.trim();
-                          String type = dropdownValue2;
+                          String conditions = conditionController.text.trim();
+                          String type = typeController.text.trim();
 
-                          if (name.isEmpty ||
-                              organizer.isEmpty ||
-                              date.isEmpty ||
-                              time.isEmpty ||
-                              price.isEmpty ||
-                              place.isEmpty ||
-                              appointment.isEmpty ||
-                              conditions.isEmpty) {
-                            CherryToast.info(
-                              title: Text('ادخل جميع الحقول'),
-                              actionHandler: () {},
-                            ).show(context);
-                            return;
-                          }
-
-                          User? user = FirebaseAuth.instance.currentUser;
-
+                          User? user = await FirebaseAuth.instance.currentUser;
                           if (user != null) {
-                            String uid = user.uid;
-
-                            DatabaseReference companyRef = FirebaseDatabase
+                            DatabaseReference userRef = FirebaseDatabase
                                 .instance
                                 .reference()
-                                .child('events');
+                                .child('events')
+                                .child('${widget.id}');
 
-                            String? id = companyRef.push().key;
-
-                            await companyRef.child(id!).set({
+                            await userRef.update({
                               'name': name,
                               'organizer': organizer,
-                              'time': time,
-                              'price': price,
                               'date': date,
+                              'price': price,
+                              'time': time,
                               'place': place,
                               'appointment': appointment,
                               'conditions': conditions,
                               'type': type,
-                              'id': id,
+                              
                             });
                           }
 
@@ -361,7 +320,7 @@ void showAlertDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Notice"),
-    content: Text("تم أضافة المسابقة"),
+    content: Text("تم حفظ التعديل"),
     actions: [
       remindButton,
     ],

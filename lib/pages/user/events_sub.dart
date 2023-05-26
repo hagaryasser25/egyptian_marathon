@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,20 +10,19 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
+import '../models/bikesList_model.dart';
 import '../models/eventsList_model.dart';
 
-class EventList extends StatefulWidget {
+class EventsSub extends StatefulWidget {
   String type;
-  static const routeName = '/eventList';
-   EventList({
-    required this.type
-   }) ;
+  static const routeName = '/eventsSub';
+   EventsSub({required this.type}) ;
 
   @override
-  State<EventList> createState() => _EventListState();
+  State<EventsSub> createState() => _EventsSubState();
 }
 
-class _EventListState extends State<EventList> {
+class _EventsSubState extends State<EventsSub> {
   late DatabaseReference base;
   late FirebaseDatabase database;
   late FirebaseApp app;
@@ -32,11 +32,11 @@ class _EventListState extends State<EventList> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    fetchEvents();
+    fetchBikes();
   }
 
   @override
-  void fetchEvents() async {
+  void fetchBikes() async {
     app = await Firebase.initializeApp();
     database = FirebaseDatabase(app: app);
     base = database.reference().child("eventsBookings").child('${widget.type}');
@@ -58,31 +58,37 @@ class _EventListState extends State<EventList> {
         designSize: const Size(375, 812),
         builder: (context, child) => Scaffold(
             appBar: AppBar(
-                backgroundColor: HexColor('#6bbcba'),
-                title: Text('حجوزات المسابقات')),
+                backgroundColor: HexColor('#6bbcba'), title: Text("اشتراكاتك")),
             body: Padding(
               padding: EdgeInsets.only(
                 top: 15.h,
                 right: 10.w,
                 left: 10.w,
               ),
-              child: ListView.builder(
-                itemCount: eventList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var date = eventList[index].date;
-                  return Column(
-                    children: [
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, right: 15, left: 15, bottom: 10),
-                            child: Column(children: [
-                              Align(
+              child: FutureBuilder(
+                builder: ((context, snapshot) {
+                  return ListView.builder(
+                      itemCount: eventList.length,
+                      itemBuilder: ((context, index) {
+                        var date = eventList[index].date;
+                        if (FirebaseAuth.instance.currentUser!.email ==
+                            eventList[index].userEmail) {
+                          return Column(
+                            children: [
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10,
+                                        right: 15,
+                                        left: 15,
+                                        bottom: 10),
+                                    child: Column(children: [
+                                      Align(
                                   alignment: Alignment.topRight,
                                   child: Text(
                                     'اسم المسابقة: ${eventList[index].eventname.toString()}',
@@ -100,16 +106,21 @@ class _EventListState extends State<EventList> {
                                     'تاريخ الأشتراك: ${getDate(date!)}',
                                     style: TextStyle(fontSize: 17),
                                   )),
-                            ]),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      )
-                    ],
-                  );
-                },
+                                      
+                                    ]),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              )
+                            ],
+                          );
+                        } else {
+                          return SizedBox(height: 0.1.h);
+                        }
+                      }));
+                }),
               ),
             )),
       ),

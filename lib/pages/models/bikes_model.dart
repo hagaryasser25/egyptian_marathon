@@ -12,6 +12,7 @@ class Bikes {
     String? uid,
     String? rentedName,
     String? rentedPhone,
+    int? rating,
   }) {
     _amount = amount;
     _area = area;
@@ -23,6 +24,7 @@ class Bikes {
     _uid = uid;
     _rentedName = rentedName;
     _rentedPhone = rentedPhone;
+    _rating = rating;
   }
 
   Bikes.fromJson(dynamic json) {
@@ -36,6 +38,7 @@ class Bikes {
     _uid = json['uid'];
     _rentedName = json['rentedName'];
     _rentedPhone = json['rentedPhone'];
+    _rating = json['rating'];
   }
 
   String? _amount;
@@ -48,6 +51,7 @@ class Bikes {
   String? _uid;
   String? _rentedName;
   String? _rentedPhone;
+  int? _rating;
 
 
   String? get amount => _amount;
@@ -60,6 +64,7 @@ class Bikes {
   String? get uid => _uid;
   String? get rentedName => _rentedName;
   String? get rentedPhone => _rentedPhone;
+  int? get rating => _rating;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -73,6 +78,7 @@ class Bikes {
     map['uid'] = _uid;
     map['rentedName'] = _rentedName;
     map['rentedPhone'] = _rentedPhone;
+    map['rating'] = _rating;
 
     return map;
   }

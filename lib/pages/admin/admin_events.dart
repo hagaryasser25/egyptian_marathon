@@ -1,4 +1,5 @@
 import 'package:egyptian_marathon/pages/admin/add_event.dart';
+import 'package:egyptian_marathon/pages/admin/edit_event.dart';
 import 'package:egyptian_marathon/pages/models/events_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -73,58 +74,139 @@ class _AdminEventState extends State<AdminEvent> {
                   },
                 )),
           ),
-          body: Container(
-            decoration: BoxDecoration(color: HexColor('#eaf2f8')),
-            child: StaggeredGridView.countBuilder(
-              padding: EdgeInsets.only(
-                top: 20.h,
-                left: 15.w,
-                right: 15.w,
-                bottom: 15.h,
-              ),
-              crossAxisCount: 6,
-              itemCount: eventsList.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Column(children: [
-                    SizedBox(height: 25.h),
-                    Text(
-                      '${eventsList[index].code.toString()}',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          body: ListView.builder(
+            itemCount: eventsList.length,
+            itemBuilder: (BuildContext context, int index) {
+              var date = eventsList[index].date;
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, right: 15, left: 15, bottom: 10),
+                          child: Column(children: [
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'اسم المسابقة : ${eventsList[index].name.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'نوع المسابقة : ${eventsList[index].type.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'اسم الراعى: ${eventsList[index].organizer.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'رسوم الاشتراك: ${eventsList[index].price.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'التاريخ: ${eventsList[index].date.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'الوقت: ${eventsList[index].time.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'مكان التجمع: ${eventsList[index].place.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'موعد التجمع: ${eventsList[index].appointment.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'شروط المسابقة: ${eventsList[index].conditions.toString()}',
+                                  style: TextStyle(fontSize: 17),
+                                )),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 120.w,
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                super.widget));
+                                    base
+                                        .child(eventsList[index].id.toString())
+                                        .remove();
+                                  },
+                                  child: Icon(Icons.delete,
+                                      color:
+                                          Color.fromARGB(255, 122, 122, 122)),
+                                ),
+                                SizedBox(
+                                  width: 30.w,
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return EditEvent(
+                                        name: eventsList[index].name.toString(),
+                                        type: eventsList[index].type.toString(),
+                                        date: eventsList[index].date.toString(),
+                                        organizer: eventsList[index].organizer.toString(),
+                                        price: eventsList[index].price.toString(),
+                                        time: eventsList[index].time.toString(),
+                                        place: eventsList[index].place.toString(),
+                                        appointment: eventsList[index].appointment.toString(),
+                                        condition: eventsList[index].conditions.toString(),
+                                        id: eventsList[index].id.toString(),
+
+                                      );
+                                    }));
+                                    
+                                  },
+                                  child: Icon(Icons.edit,
+                                      color:
+                                          Color.fromARGB(255, 122, 122, 122)),
+                                ),
+                              ],
+                            )
+                          ]),
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 5.h),
-                    Text(
-                        '${eventsList[index].date.toString()}'),
-                    SizedBox(height: 5.h),
-                    Text('${eventsList[index].place.toString()}'),
-                    SizedBox(height: 5.h),
-                    Text(
-                        '${eventsList[index].appointment.toString()}'),
-                    SizedBox(height: 5.h),
-                    InkWell(
-                      onTap: () async {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    super.widget));
-                        base.child(eventsList[index].id.toString()).remove();
-                      },
-                      child: Icon(Icons.delete,
-                          color: Color.fromARGB(255, 122, 122, 122)),
-                    )
-                  ]),
-                );
-              },
-              staggeredTileBuilder: (int index) =>
-                  new StaggeredTile.count(3, index.isEven ? 3 : 3),
-              mainAxisSpacing: 12.0,
-              crossAxisSpacing: 5.0,
-            ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  )
+                ],
+              );
+            },
           ),
         ),
       ),
